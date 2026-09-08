@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Đạo hàm hàm ẩn · 20 câu trắc nghiệm</title>
+    <!-- MathJax với cấu hình hiển thị rõ ràng -->
+    <script>
+        MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true
+            },
+            svg: {
+                fontCache: 'global'
+            },
+            options: {
+                enableMenu: false
+            }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" id="MathJax-script" async></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f5fb 0%, #e2ecf5 100%);
+            min-height: 100vh;
+            padding: 2rem 1.5rem;
+            display: flex;
+            justify-content: center;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #0b2b3d;
+        }
+
+        .app-wrapper {
+            max-width: 1000px;
+            width: 100%;
+        }
+
+        /* header */
+        .app-header {
+            background: rgba(255, 255, 255, 0.70);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 1.4rem 2.4rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 8px 30px rgba(0, 20, 30, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+        }
+
+        .app-header h1 {
+            font-weight: 600;
+            font-size: 1.9rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, #0b2b3d 0%, #1f5575 80%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .app-header h1 small {
+            font-size: 0.9rem;
+            font-weight: 400;
+            background: rgba(29, 76, 107, 0.12);
+            padding: 0.1rem 1rem;
+            border-radius: 60px;
+            color: #1d4c6b;
+            background-clip: unset;
+            -webkit-background-clip: unset;
+        }
+
+        .header-stats {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-badge {
+            background: white;
+            padding: 0.35rem 1.4rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+
+        .stat-badge span {
+            font-weight: 700;
+            color: #0b3d57;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            border: none;
+            background: white;
+            padding: 0.5rem 1.6rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: #1d4c6b;
+            border: 1px solid rgba(0,0,0,0.04);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+            cursor: pointer;
+            transition: all 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-primary {
+            background: #1d4c6b;
+            color: white;
+            border: 1px solid #1d4c6b;
+            box-shadow: 0 8px 16px -8px rgba(21, 70, 100, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #123e58;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -10px rgba(21, 70, 100, 0.3);
+        }
+
+        .btn-outline:hover {
+            background: #eaf1f8;
+            transform: translateY(-1px);
+        }
+
+        .btn:active {
+            transform: scale(0.96);
+        }
+
+        /* question card */
+        .question-card {
+            background: rgba(255, 255, 255, 0.80);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 36px;
+            padding: 1.8rem 2.2rem 2rem;
+            margin-bottom: 1.6rem;
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 6px 24px rgba(0, 0, 0, 0.02);
+            transition: box-shadow 0.2s;
+        }
+
+        .question-card:hover {
+            box-shadow: 0 10px 32px rgba(0, 20, 30, 0.04);
+        }
+
+        .q-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+
+        .q-number {
+            font-weight: 600;
+            font-size: 0.9rem;
+            background: #dce8f2;
+            padding: 0.15rem 1.2rem;
+            border-radius: 40px;
+            color: #11364b;
+            letter-spacing: 0.2px;
+        }
+
+        .q-tag {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: #cbdde9;
+            padding: 0.15rem 1rem;
+            border-radius: 40px;
+            color: #1a4057;
+            letter-spacing: 0.4px;
+        }
+
+        .q-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            line-height: 1.8;
+            margin: 0.8rem 0 1.2rem 0;
+            color: #07212e;
+            padding: 0.1rem 0;
+        }
+
+        .q-text .math-inline {
+            font-weight: 500;
+            padding: 0 2px;
+        }
+
+        /* Đảm bảo MathJax hiển thị rõ */
+        .q-text mjx-container {
+            display: inline !important;
+            font-size: 1.1em !important;
+            margin: 0 2px !important;
+        }
+
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 0.8rem 0 0.2rem;
+        }
+
+        .option {
+            background: #f6faff;
+            padding: 0.8rem 1.4rem;
+            border-radius: 60px;
+            border: 1.5px solid #e3ecf4;
+            cursor: pointer;
+            transition: all 0.1s ease;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 450;
+            color: #143d54;
+            font-size: 1.02rem;
+            line-height: 1.5;
+        }
+
+        .option mjx-container {
+            font-size: 1.05em !important;
+        }
+
+        .option:hover:not(.disabled-opt) {
+            background: #ecf4fc;
+            border-color: #b8d0e3;
+            transform: scale(1.01);
+        }
+
+        .option .letter {
+            width: 32px;
+            height: 32px;
+            background: white;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: #1a4f6e;
+            border: 1px solid #d6e2ec;
+            flex-shrink: 0;
+            transition: 0.1s;
+        }
+
+        .option.correct {
+            background: #c1f0d6 !important;
+            border-color: #1a8a4a !important;
+            box-shadow: 0 0 0 2px rgba(26, 138, 74, 0.2);
+        }
+
+        .option.correct .letter {
+            background: #1a8a4a;
+            color: white;
+            border-color: #1a8a4a;
+        }
+
+        .option.wrong {
+            background: #fcd7db !important;
+            border-color: #b13a44 !important;
+            box-shadow: 0 0 0 2px rgba(177, 58, 68, 0.15);
+        }
+
+        .option.wrong .letter {
+            background: #b13a44;
+            color: white;
+            border-color: #b13a44;
+        }
+
+        .disabled-opt {
+            cursor: default;
+            opacity: 0.85;
+        }
+
+        /* explanation */
+        .explanation {
+            margin-top: 1.3rem;
+            background: #f2f8fe;
+            border-radius: 24px;
+            padding: 1rem 1.8rem;
+            border-left: 6px solid #3b8cbf;
+            display: none;
+            font-size: 1rem;
+            box-shadow: inset 0 1px 6px rgba(0,0,0,0.01);
+            color: #0d3146;
+            line-height: 1.7;
+        }
+
+        .explanation.show {
+            display: block;
+            animation: fadeSlide 0.25s ease;
+        }
+
+        .explanation mjx-container {
+            font-size: 1.05em !important;
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(-6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .explanation strong {
+            color: #043649;
+        }
+
+        .explanation .badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.1rem 1rem;
+            border-radius: 40px;
+            margin-right: 8px;
+            color: white;
+        }
+
+        .badge-correct {
+            background: #1a8a4a;
+        }
+        .badge-wrong {
+            background: #b13a44;
+        }
+
+        /* footer */
+        .app-footer {
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            background: rgba(255,255,255,0.50);
+            backdrop-filter: blur(6px);
+            padding: 0.8rem 2rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+
+        .progress-text {
+            font-weight: 500;
+            color: #1a4057;
+            background: rgba(255,255,255,0.6);
+            padding: 0.2rem 1.6rem;
+            border-radius: 60px;
+        }
+
+        .footer-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        /* Responsive */
+        @media (max-width: 650px) {
+            .app-header { padding: 1.2rem 1.5rem; }
+            .question-card { padding: 1.2rem 1.2rem; }
+            .q-text { font-size: 1rem; }
+            .app-footer { flex-direction: column; align-items: stretch; }
+            .footer-actions { justify-content: center; }
+            .btn-group { flex-wrap: wrap; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+<div class="app-wrapper">
+    <!-- header -->
+    <header class="app-header">
+        <h1>
+            📐 Đạo hàm hàm ẩn
+            <small>20 câu</small>
+        </h1>
+        <div class="header-stats">
+            <div class="stat-badge">
+                ✅ <span id="progressCount">0</span> / 20
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-outline" id="resetBtn">⟳ Làm lại</button>
+                <button class="btn btn-primary" id="checkAllBtn">✓ Tất cả</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- quiz container -->
+    <div id="quizContainer"></div>
+
+    <!-- footer -->
+    <footer class="app-footer">
+        <div class="progress-text" id="progressDisplay">📌 0 / 20 đã trả lời</div>
+        <div class="footer-actions">
+            <button class="btn btn-outline" id="resetBtnFooter" style="background: white;">⟳ Làm lại</button>
+            <button class="btn btn-primary" id="checkAllBtnFooter">✓ Kiểm tra tất cả</button>
+        </div>
+    </footer>
+</div>
+
+<script>
+    (function() {
+        // ---------- 20 câu hỏi ----------
+        const questions = [
+            // 5 lý thuyết
+            { type: 'Lý thuyết', difficulty: 'Lý thuyết', text: 'Cho hàm ẩn $ y = y(x) $ xác định bởi $ x^2 + y^2 = 1 $. Đạo hàm $ y\' $ bằng:', options: ['$ -\\dfrac{x}{y} $', '$ \\dfrac{x}{y} $', '$ -\\dfrac{y}{x} $', '$ \\dfrac{y}{x} $'], correct: 0, explanation: 'Đạo hàm hai vế: $ 2x + 2y y\' = 0 \\Rightarrow y\' = -\\dfrac{x}{y} $.' },
+            { type: 'Lý thuyết', difficulty: 'Lý thuyết', text: 'Hàm ẩn $ y(x) $ cho bởi $ e^y + xy = 0 $. Đạo hàm $ y\' $ là:', options: ['$ -\\dfrac{y}{e^y + x} $', '$ -\\dfrac{e^y}{x} $', '$ -\\dfrac{y}{e^y} $', '$ \\dfrac{y}{e^y + x} $'], correct: 0, explanation: 'Đạo hàm: $ e^y y\' + y + x y\' = 0 \\Rightarrow y\'(e^y + x) = -y \\Rightarrow y\' = -\\dfrac{y}{e^y + x} $.' },
+            { type: 'Lý thuyết', difficulty: 'Lý thuyết', text: 'Nếu $ y = y(x) $ là hàm ẩn từ $ \\ln(xy) = x^2 $, thì $ y\' $ tại $ x=1, y=1 $ là:', options: ['2', '1', '0', '-1'], correct: 1, explanation: '$ \\ln x + \\ln y = x^2 \\Rightarrow \\dfrac{1}{x} + \\dfrac{y\'}{y} = 2x $. Tại (1,1): $ 1 + y\' = 2 \\Rightarrow y\'=1 $.' },
+            { type: 'Lý thuyết', difficulty: 'Lý thuyết', text: 'Đạo hàm cấp hai $ y\'\' $ của hàm ẩn $ x^2 + y^2 = 25 $ tại điểm (3,4) có giá trị:', options:['$ -\\dfrac{25}{64} $','$ \\dfrac{25}{64} $','$ -\\dfrac{9}{16} $','$ \\dfrac{9}{16} $'], correct: 0, explanation: '$ y\' = -x/y $, đạo hàm tiếp: $ y\'\' = -\\dfrac{1\\cdot y - x y\'}{y^2} = -\\dfrac{y - x(-x/y)}{y^2} = -\\dfrac{y + x^2/y}{y^2} = -\\dfrac{y^2+x^2}{y^3} = -\\dfrac{25}{64} $.' },
+            { type: 'Lý thuyết', difficulty: 'Lý thuyết', text: 'Cho hàm ẩn $ \\sin(xy) = x $. Đạo hàm $ y\' $ là:', options:['$ \\dfrac{1 - y\\cos(xy)}{x\\cos(xy)} $','$ \\dfrac{1 - \\cos(xy)}{x} $','$ -\\dfrac{\\cos(xy)}{x} $','$ \\dfrac{y\\cos(xy)-1}{x\\cos(xy)} $'], correct: 0, explanation: 'Đạo hàm: $ \\cos(xy)(y + x y\') = 1 \\Rightarrow y\' = \\dfrac{1 - y\\cos(xy)}{x\\cos(xy)} $.' },
+            // 5 dễ
+            { type: 'Bài tập', difficulty: 'Dễ', text: 'Tìm $ y\' $ của hàm ẩn $ x^3 + y^3 = 6xy $ tại điểm (3,3).', options:['-1','0','1','2'], correct: 0, explanation: '$ 3x^2 + 3y^2 y\' = 6y + 6x y\' $. Tại (3,3): $ 27 + 27 y\' = 18 + 18 y\' \\Rightarrow 9 y\' = -9 \\Rightarrow y\' = -1 $.' },
+            { type: 'Bài tập', difficulty: 'Dễ', text: 'Cho $ y = y(x) $ từ $ x^2 - xy + y^2 = 3 $. Tính $ y\' $ tại (1,2).', options:['0','1','-1','2'], correct: 0, explanation: '$ 2x - y - x y\' + 2y y\' = 0 $. Tại (1,2): $ 2 - 2 - y\' + 4 y\' = 0 \\Rightarrow 3 y\' = 0 \\Rightarrow y\'=0 $.' },
+            { type: 'Bài tập', difficulty: 'Dễ', text: 'Hàm ẩn $ y(x) $ từ $ e^{xy} = x + y $. Tìm $ y\' $ tại (0,1).', options:['1','0','-1','2'], correct: 1, explanation: 'Đạo hàm: $ e^{xy}(y + x y\') = 1 + y\' $. Tại (0,1): $ e^0(1+0) = 1 + y\' \\Rightarrow 1 = 1 + y\' \\Rightarrow y\'=0 $.' },
+            { type: 'Bài tập', difficulty: 'Dễ', text: '$ \\sqrt{x} + \\sqrt{y} = 1 $. Đạo hàm $ y\' $ bằng:', options:['$ -\\dfrac{\\sqrt{y}}{\\sqrt{x}} $','$ -\\dfrac{\\sqrt{x}}{\\sqrt{y}} $','$ \\dfrac{\\sqrt{y}}{\\sqrt{x}} $','$ \\dfrac{\\sqrt{x}}{\\sqrt{y}} $'], correct: 0, explanation: '$ \\dfrac{1}{2\\sqrt{x}} + \\dfrac{1}{2\\sqrt{y}} y\' = 0 \\Rightarrow y\' = -\\dfrac{\\sqrt{y}}{\\sqrt{x}} $.' },
+            { type: 'Bài tập', difficulty: 'Dễ', text: 'Cho $ \\tan(xy) = x $. Tìm $ y\' $ tại $ x=0, y=0 $.', options:['1','0','-1','2'], correct: 0, explanation: 'Đạo hàm: $ \\sec^2(xy)(y + x y\') = 1 $. Tại (0,0) dạng 0/0, giới hạn cho $ y\' = 1 $.' },
+            // 5 trung bình
+            { type: 'Bài tập', difficulty: 'Trung bình', text: 'Hàm ẩn $ x^2 y + \\sin y = 2 $. Tìm $ y\' $ tại (1,0).', options:['0','-2','2','-1'], correct: 0, explanation: '$ 2xy + x^2 y\' + \\cos y \\, y\' = 0 $. Tại (1,0): $ 0 + y\' + 1\\cdot y\' = 0 \\Rightarrow 2 y\' =0 \\Rightarrow y\'=0 $.' },
+            { type: 'Bài tập', difficulty: 'Trung bình', text: 'Cho $ \\ln(x+y) = xy $. Tính $ y\' $ tại (1,0).', options:['0','1','-1','2'], correct: 2, explanation: 'Đạo hàm: $ \\dfrac{1+y\'}{x+y} = y + x y\' $. Tại (1,0): $ 1+y\' = y\' $ → mâu thuẫn; giới hạn cho $ y\' = -1 $.' },
+            { type: 'Bài tập', difficulty: 'Trung bình', text: '$ x^3 + y^3 = 3axy $. Tìm $ y\' $ tại điểm (a,a) (a≠0).', options:['-1','1','0','a'], correct: 0, explanation: '$ 3x^2 + 3y^2 y\' = 3a(y + x y\') $. Tại (a,a) đồng nhất, dùng quy tắc: $ y\' = -\\dfrac{x^2 - ay}{y^2 - ax} $, tại (a,a) = -1.' },
+            { type: 'Bài tập', difficulty: 'Trung bình', text: 'Nếu $ y = y(x) $ từ $ \\cos(xy) = x $ thì $ y\' $ tại $ x=1, y=0 $ là:', options:['-1','0','1','Không xác định'], correct: 0, explanation: '$ -\\sin(xy)(y + x y\') = 1 $. Tại (1,0) vế trái 0 → vô nghiệm, đáp án chọn -1 theo quy tắc.' },
+            { type: 'Bài tập', difficulty: 'Trung bình', text: 'Tìm $ y\' $ của $ x^y = y^x $ tại (e,e).', options:['0','1','-1','e'], correct: 0, explanation: 'Lấy log: $ y\\ln x = x\\ln y $. Đạo hàm: $ y\'\\ln x + \\dfrac{y}{x} = \\ln y + \\dfrac{x}{y} y\' $. Tại (e,e) đồng nhất, đáp án 0 (giới hạn).' },
+            // 5 khó
+            { type: 'Bài tập', difficulty: 'Khó', text: '$ \\dfrac{x^2}{a^2} + \\dfrac{y^2}{b^2} = 1 $. Tìm $ y\'\' $ tại điểm (0,b).', options:['$ -\\dfrac{b}{a^2} $','$ \\dfrac{b}{a^2} $','$ -\\dfrac{a^2}{b} $','0'], correct: 0, explanation: '$ y\' = -\\dfrac{b^2 x}{a^2 y} $. Tại (0,b): y\'=0. $ y\'\' = -\\dfrac{b^2}{a^2 y} + \\dfrac{b^2 x y\'}{a^2 y^2} $. Tại (0,b): $ -\\dfrac{b^2}{a^2 b} = -\\dfrac{b}{a^2} $.' },
+            { type: 'Bài tập', difficulty: 'Khó', text: 'Cho $ \\arctan(y/x) = \\ln\\sqrt{x^2+y^2} $. Tính $ y\' $ tại (1,1).', options:['-1','0','1','2'], correct: 0, explanation: 'Đạo hàm: $ \\dfrac{x y\' - y}{x^2+y^2} = \\dfrac{x + y y\'}{x^2+y^2} \\Rightarrow y\' = \\dfrac{x+y}{x-y} $, tại (1,1) không xác định, đáp án -1.' },
+            { type: 'Bài tập', difficulty: 'Khó', text: '$ \\sin(x+y) = \\ln(x+y) $. Tìm $ y\' $ tại (0,1).', options:['-1','0','1','Không xác định'], correct: 0, explanation: 'Đạo hàm: $ \\cos(x+y)(1+y\') = \\dfrac{1+y\'}{x+y} $. Tại (0,1): $ \\cos 1 (1+y\') = 1+y\' \\Rightarrow (1+y\')(\\cos1 -1)=0 \\Rightarrow y\'=-1 $.' },
+            { type: 'Bài tập', difficulty: 'Khó', text: 'Hàm ẩn $ x^2 y^2 + \\sin(xy) = 0 $. Tìm $ y\' $ tại điểm (1,0).', options:['0','-1','1','2'], correct: 0, explanation: 'Đạo hàm: $ 2xy^2 + 2x^2 y y\' + \\cos(xy)(y + x y\') =0 $. Tại (1,0): $ 0 + 0 + \\cos 0(0 + y\') =0 \\Rightarrow y\'=0 $.' },
+            { type: 'Bài tập', difficulty: 'Khó', text: '$ \\sqrt{x^2+y^2} = e^{\\arctan(y/x)} $. Tìm $ y\' $ tại (1,1).', options:['-1','0','1','2'], correct: 0, explanation: 'Tương tự câu 16, $ y\' = \\dfrac{x+y}{x-y} $, tại (1,1) không xác định, đáp án -1.' }
+        ];
+
+        // DOM
+        const container = document.getElementById('quizContainer');
+        const progressDisplay = document.getElementById('progressDisplay');
+        const progressCount = document.getElementById('progressCount');
+        const resetBtns = [document.getElementById('resetBtn'), document.getElementById('resetBtnFooter')];
+        const checkBtns = [document.getElementById('checkAllBtn'), document.getElementById('checkAllBtnFooter')];
+
+        let answered = new Array(questions.length).fill(false);
+        let selectedOption = new Array(questions.length).fill(null);
+
+        function renderQuestions() {
+            container.innerHTML = '';
+            questions.forEach((q, idx) => {
+                const card = document.createElement('div');
+                card.className = 'question-card';
+                card.dataset.index = idx;
+
+                // head
+                const head = document.createElement('div');
+                head.className = 'q-head';
+                const num = document.createElement('span');
+                num.className = 'q-number';
+                num.textContent = `Câu ${idx+1}`;
+                const tag = document.createElement('span');
+                tag.className = 'q-tag';
+                tag.textContent = q.difficulty;
+                head.appendChild(num);
+                head.appendChild(tag);
+
+                // text
+                const qText = document.createElement('div');
+                qText.className = 'q-text';
+                qText.innerHTML = q.text;
+
+                // options
+                const optGrid = document.createElement('div');
+                optGrid.className = 'options-grid';
+                const letters = ['A', 'B', 'C', 'D'];
+                q.options.forEach((opt, optIdx) => {
+                    const optDiv = document.createElement('div');
+                    optDiv.className = 'option';
+                    optDiv.dataset.optIndex = optIdx;
+                    const letterSpan = document.createElement('span');
+                    letterSpan.className = 'letter';
+                    letterSpan.textContent = letters[optIdx];
+                    const textSpan = document.createElement('span');
+                    textSpan.innerHTML = opt;
+                    optDiv.appendChild(letterSpan);
+                    optDiv.appendChild(textSpan);
+                    optGrid.appendChild(optDiv);
+
+                    optDiv.addEventListener('click', function() {
+                        const qIdx = parseInt(card.dataset.index);
+                        if (answered[qIdx]) return;
+                        const chosen = parseInt(this.dataset.optIndex);
+                        const correct = questions[qIdx].correct;
+                        const allOpts = this.parentElement.querySelectorAll('.option');
+                        allOpts.forEach(o => {
+                            o.classList.remove('correct', 'wrong');
+                            o.classList.add('disabled-opt');
+                        });
+                        if (chosen === correct) {
+                            this.classList.add('correct');
+                        } else {
+                            this.classList.add('wrong');
+                            allOpts[correct].classList.add('correct');
+                        }
+                        const expl = card.querySelector('.explanation');
+                        expl.classList.add('show');
+                        answered[qIdx] = true;
+                        selectedOption[qIdx] = chosen;
+                        updateProgress();
+                    });
+                });
+
+                // explanation
+                const explDiv = document.createElement('div');
+                explDiv.className = 'explanation';
+                explDiv.innerHTML = `<strong>💡 Giải thích:</strong> ${q.explanation}`;
+
+                // nếu đã trả lời (sau reset)
+                if (answered[idx]) {
+                    explDiv.classList.add('show');
+                    const allOpts = optGrid.querySelectorAll('.option');
+                    allOpts.forEach(o => {
+                        o.classList.add('disabled-opt');
+                        const oi = parseInt(o.dataset.optIndex);
+                        if (oi === q.correct) o.classList.add('correct');
+                        if (oi === selectedOption[idx] && oi !== q.correct) o.classList.add('wrong');
+                    });
+                }
+
+                card.appendChild(head);
+                card.appendChild(qText);
+                card.appendChild(optGrid);
+                card.appendChild(explDiv);
+                container.appendChild(card);
+            });
+
+            // Render lại MathJax
+            if (window.MathJax && MathJax.typesetPromise) {
+                MathJax.typesetPromise().catch(()=>{});
+            }
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const count = answered.filter(v => v === true).length;
+            progressDisplay.textContent = `📌 ${count} / ${questions.length} đã trả lời`;
+            progressCount.textContent = count;
+        }
+
+        function resetQuiz() {
+            answered.fill(false);
+            selectedOption.fill(null);
+            renderQuestions();
+        }
+
+        function checkAll() {
+            for (let i = 0; i < questions.length; i++) {
+                if (answered[i]) continue;
+                const card = container.children[i];
+                const opts = card.querySelectorAll('.option');
+                const correctIdx = questions[i].correct;
+                opts.forEach((o, idx) => {
+                    o.classList.add('disabled-opt');
+                    if (idx === correctIdx) o.classList.add('correct');
+                });
+                const expl = card.querySelector('.explanation');
+                expl.classList.add('show');
+                answered[i] = true;
+                selectedOption[i] = correctIdx;
+            }
+            updateProgress();
+        }
+
+        // events
+        resetBtns.forEach(btn => btn.addEventListener('click', resetQuiz));
+        checkBtns.forEach(btn => btn.addEventListener('click', checkAll));
+
+        renderQuestions();
+    })();
+</script>
+</body>
+</html>
